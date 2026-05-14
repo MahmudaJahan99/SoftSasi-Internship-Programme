@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <title>Task 1 - DOM Manipulation</title>
+  </head>
+
+  <body>
+    <div class="card">
+      <div class="product-image-container">
+        <img
+          class="product-image"
+          src="./assets/images/pexels-addy-bronzzz-264850064-14108017.jpg"
+          alt="product"
+        />
+      </div>
+
+      <h1 class="title">Celeste Blush Embellished Gown</h1>
+
+      <p class="description">
+        Dreamy blush-nude tone with shimmering hand-embellished detailing, a
+        structured square neckline, and flowing cape sleeves.
+      </p>
+
+      <div class="stock-and-price">
+        <div class="price">$<span id="unitPrice">450</span></div>
+        <div class="stock" id="stockText">Stock: 8 Left</div>
+      </div>
+
+      <div class="quantity-container">
+        <div>
+          <span>Quantity</span>
+          <span class="quantity" id="quantity">0</span>
+        </div>
+
+        <div class="qty-btn-container">
+          <button class="qty-btn" id="minusBtn">−</button>
+          <button class="qty-btn" id="plusBtn">+</button>
+        </div>
+      </div>
+
+      <div class="cta-btn-container">
+        <button class="cta-btn" id="cartBtn">Add To Cart</button>
+        <button class="cta-btn" id="wishlistBtn">♡ Wishlist</button>
+      </div>
+
+      <div class="out-of-stock" id="outOfStock"></div>
+
+      <div class="total">
+        Total: $
+        <span id="totalPrice">0</span>
+      </div>
+    </div>
+
+    <!-- Script files -->
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </body>
+</html>
