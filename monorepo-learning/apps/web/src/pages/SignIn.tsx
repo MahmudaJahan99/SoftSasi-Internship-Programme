@@ -1,12 +1,13 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import "./SignIn.css";
+import { Link } from "react-router";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     console.log({
@@ -93,7 +94,7 @@ const SignIn = () => {
         </button>
 
         <p className="signup-text">
-          Don't have an account? <a href="/signup">Create an account</a>
+          Don't have an account? <Link to="/signup">Create an account</Link>
         </p>
       </section>
 

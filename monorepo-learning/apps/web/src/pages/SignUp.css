@@ -175,11 +175,6 @@
     opacity: 0;
 }
 
-/* =========================================
-   IF USER HAS TYPED SOMETHING
-   LABEL STAYS GONE
-   ========================================= */
-
 .form-group:has(input:not(:placeholder-shown)) label {
     transform: translate(calc(-100% - 24px),
             -50%);
@@ -198,6 +193,38 @@
     background: #fff;
 
     box-shadow:
+        0 0 0 4px rgba(139, 92, 246, 0.08);
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:active {
+    -webkit-text-fill-color: #2c2435;
+
+    -webkit-box-shadow:
+        0 0 0 1000px #ffffff inset;
+
+    box-shadow:
+        0 0 0 1000px #ffffff inset;
+
+    border-color: #ded8e7;
+
+    caret-color: #2c2435;
+
+    transition:
+        background-color 9999s ease-in-out 0s;
+}
+
+.form-group input:-webkit-autofill:focus {
+    border-color: #8b5cf6;
+
+    -webkit-box-shadow:
+        0 0 0 1000px #ffffff inset,
+        0 0 0 4px rgba(139, 92, 246, 0.08);
+
+    box-shadow:
+        0 0 0 1000px #ffffff inset,
         0 0 0 4px rgba(139, 92, 246, 0.08);
 }
 
