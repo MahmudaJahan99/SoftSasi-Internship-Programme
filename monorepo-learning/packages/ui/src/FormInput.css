@@ -1,0 +1,111 @@
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    z-index: 2;
+
+    transform: translateY(-50%);
+
+    color: #8d8497;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    pointer-events: none;
+
+    transition:
+        transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease;
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+
+    height: 52px;
+    padding: 0 15px;
+
+    border: 1px solid #ded8e7;
+    border-radius: 11px;
+
+    outline: none;
+
+    background: rgba(255, 255, 255, 0.9);
+    color: #2c2435;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.form-group input::placeholder {
+    color: transparent;
+}
+
+.form-group:focus-within label {
+    transform: translate(calc(-100% - 24px),
+            -50%);
+
+    opacity: 0;
+}
+
+.form-group:has(input:not(:placeholder-shown)) label {
+    transform: translate(calc(-100% - 24px),
+            -50%);
+
+    opacity: 0;
+}
+
+.form-group:has(input:placeholder-shown):not(:focus-within) label {
+    transform: translateY(-50%);
+    opacity: 1;
+}
+
+.form-group input:focus {
+    border-color: #8b5cf6;
+
+    background: #fff;
+
+    box-shadow:
+        0 0 0 4px rgba(139, 92, 246, 0.08);
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:active {
+    -webkit-text-fill-color: #2c2435;
+
+    -webkit-box-shadow:
+        0 0 0 1000px #ffffff inset;
+
+    box-shadow:
+        0 0 0 1000px #ffffff inset;
+
+    border-color: #ded8e7;
+
+    caret-color: #2c2435;
+
+    transition:
+        background-color 9999s ease-in-out 0s;
+}
+
+.form-group input:-webkit-autofill:focus {
+    border-color: #8b5cf6;
+
+    -webkit-box-shadow:
+        0 0 0 1000px #ffffff inset,
+        0 0 0 4px rgba(139, 92, 246, 0.08);
+
+    box-shadow:
+        0 0 0 1000px #ffffff inset,
+        0 0 0 4px rgba(139, 92, 246, 0.08);
+}

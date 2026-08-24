@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./SignIn.css";
 import { Link } from "react-router";
+import FormInput from "@monorepo-learning/ui/FormInput";
+import AuthForm from "../components/AuthForm";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -15,92 +17,66 @@ const SignIn = () => {
       password,
       rememberMe,
     });
+
+    setEmail("");
+    setPassword("");
+    setRememberMe(false);
   };
 
   return (
-    <main className="signin-page">
-      <section className="signin-card">
-        <div className="signin-header">
-          <div className="brand-mark">S</div>
-
-          <p className="eyebrow">Welcome back</p>
-
-          <h1>
-            Sign in to <span>Story Nest</span>
-          </h1>
-
-          <p className="subtitle">
-            Continue your journey through stories, ideas, and inspiration.
-          </p>
-        </div>
-
-        <form className="signin-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email address</label>
-
-            <input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              autoComplete="email"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <div className="label-row">
-              <label htmlFor="password">Password</label>
-
-              <a href="/forgot-password" className="forgot-link">
-                Forgot password?
-              </a>
-            </div>
-
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              autoComplete="current-password"
-              required
-            />
-          </div>
-
-          <label className="remember-me">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(event) => setRememberMe(event.target.checked)}
-            />
-            <span>Remember me</span>
-          </label>
-
-          <button type="submit" className="signin-button">
-            Sign in
-            <span>→</span>
-          </button>
-        </form>
-
-        <div className="divider">
-          <span>or</span>
-        </div>
-
-        <button type="button" className="google-button">
-          <span className="google-icon">G</span>
-          Continue with Google
-        </button>
-
-        <p className="signup-text">
+    <AuthForm
+      eyebrow="Welcome back"
+      heading={
+        <>
+          Sign in to <span>Story Nest</span>
+        </>
+      }
+      subtitle="Continue your journey through stories, ideas, and inspiration."
+      submitText="Sign in"
+      googleText="Sign up with Google"
+      onSubmit={handleSubmit}
+      footer={
+        <p className="signin-text">
           Don't have an account? <Link to="/signup">Create an account</Link>
         </p>
-      </section>
+      }
+    >
+      <FormInput
+        id="email"
+        label="Email"
+        type="email"
+        placeholder="you@example.com"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+        autoComplete="email"
+        required
+      />
 
-      <div className="decorative-orb orb-one" />
-      <div className="decorative-orb orb-two" />
-    </main>
+      <FormInput
+        id="password"
+        label="Password"
+        type="password"
+        placeholder="Enter your password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+        autoComplete="current-password"
+        required
+      />
+
+      <label className="remember-me">
+        <input
+          type="checkbox"
+          checked={rememberMe}
+          onChange={(event) => setRememberMe(event.target.checked)}
+        />
+
+        <span>Remember me</span>
+
+        <a href="/forgot-password" className="forgot-link">
+          Forgot password?
+        </a>
+      </label>
+    </AuthForm>
   );
 };
 
