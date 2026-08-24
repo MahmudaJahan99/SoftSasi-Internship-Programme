@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/health")
+      .get("/api/health")
       .then((response) => {
         console.log(response.data);
         setMessage(response.data.message);

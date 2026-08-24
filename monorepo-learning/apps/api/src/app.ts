@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import usersRouter from "./routes/users.routes.js";
 
 const app = express();
 
@@ -11,5 +12,7 @@ app.get("/api/health", (_req, res) => {
     message: "API is running 🚀",
   });
 });
+
+app.use("/api/users", usersRouter);
 
 export default app;
