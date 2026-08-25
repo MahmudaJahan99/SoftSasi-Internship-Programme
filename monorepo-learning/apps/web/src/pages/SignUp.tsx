@@ -1,10 +1,22 @@
 import { useState } from "react";
+import axios from "axios";
 import "./SignUp.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import FormInput from "@monorepo-learning/ui/FormInput";
 import AuthForm from "../components/AuthForm";
 
+type SignUpFieldErrors = Partial<
+  Record<"name" | "username" | "email" | "password", string>
+>;
+
+type SignUpErrorResponse = {
+  error: string;
+  details?: Record<string, string[] | undefined>;
+};
+
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -12,25 +24,53 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+  const [fieldErrors, setFieldErrors] = useState<SignUpFieldErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFieldErrors({});
+    setFormError(null);
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      setFieldErrors({ password: "Passwords do not match." });
       return;
     }
 
     if (!agreeToTerms) {
-      alert("Please agree to the terms and conditions.");
+      setFormError("Please agree to the terms and conditions.");
       return;
     }
 
-    console.log({
-      name,
-      username,
-      email,
-      password,
-    });
+    setSubmitting(true);
+
+    try {
+      await axios.post("/api/users", { name, username, email, password });
+      navigate("/signin");
+    } catch (error) {
+      if (axios.isAxiosError<SignUpErrorResponse>(error) && error.response) {
+        const { status, data } = error.response;
+
+        if (status === 400 && data.details) {
+          const nextFieldErrors: SignUpFieldErrors = {};
+          for (const [field, messages] of Object.entries(data.details)) {
+            if (messages?.[0]) {
+              nextFieldErrors[field as keyof SignUpFieldErrors] = messages[0];
+            }
+          }
+          setFieldErrors(nextFieldErrors);
+        } else if (status === 409) {
+          setFormError(data.error);
+        } else {
+          setFormError("Something went wrong. Please try again.");
+        }
+      } else {
+        setFormError("Unable to reach the server. Check your connection.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -42,7 +82,7 @@ const SignUp = () => {
         </>
       }
       subtitle="Find your voice, share your ideas, and discover stories worth reading."
-      submitText="Create account"
+      submitText={submitting ? "Creating account…" : "Create account"}
       googleText="Sign up with Google"
       onSubmit={handleSubmit}
       footer={
@@ -51,6 +91,12 @@ const SignUp = () => {
         </p>
       }
     >
+      {formError && (
+        <p className="form-error" role="alert">
+          {formError}
+        </p>
+      )}
+
       <FormInput
         id="name"
         label="Full Name"
@@ -61,6 +107,7 @@ const SignUp = () => {
         autoComplete="name"
         required
       />
+      {fieldErrors.name && <p className="field-error">{fieldErrors.name}</p>}
 
       <FormInput
         id="username"
@@ -72,6 +119,9 @@ const SignUp = () => {
         autoComplete="username"
         required
       />
+      {fieldErrors.username && (
+        <p className="field-error">{fieldErrors.username}</p>
+      )}
 
       <FormInput
         id="email"
@@ -83,6 +133,7 @@ const SignUp = () => {
         autoComplete="email"
         required
       />
+      {fieldErrors.email && <p className="field-error">{fieldErrors.email}</p>}
 
       <FormInput
         id="password"
@@ -95,6 +146,9 @@ const SignUp = () => {
         required
         minLength={8}
       />
+      {fieldErrors.password && (
+        <p className="field-error">{fieldErrors.password}</p>
+      )}
 
       <FormInput
         id="confirmPassword"

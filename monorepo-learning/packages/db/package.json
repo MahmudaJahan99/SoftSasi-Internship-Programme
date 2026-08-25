@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
   "scripts": {
     "build": "tsdown",
     "db:migrate": "prisma migrate dev",
@@ -20,7 +27,7 @@
     "dotenv": "^17.4.2",
     "prisma": "^6.1.0",
     "tsdown": "^0.22.14",
-    "typescript": "^5.7.0"
+    "typescript": "^5.9.2"
   },
   "keywords": [],
   "author": "",
