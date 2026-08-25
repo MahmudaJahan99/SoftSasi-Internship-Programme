@@ -4,13 +4,19 @@ import "./SignUp.css";
 import { Link, useNavigate } from "react-router";
 import FormInput from "@monorepo-learning/ui/FormInput";
 import AuthForm from "../components/AuthForm";
+import {
+  isPasswordValid,
+  PASSWORD_REQUIREMENTS_MESSAGE,
+} from "../components/PasswordRequirements";
+import { FiAlertCircle, FiEye, FiEyeOff } from "react-icons/fi";
 
 type SignUpFieldErrors = Partial<
-  Record<"name" | "username" | "email" | "password", string>
+  Record<"name" | "username" | "email" | "password" | "confirmPassword", string>
 >;
 
 type SignUpErrorResponse = {
   error: string;
+  field?: "email" | "username";
   details?: Record<string, string[] | undefined>;
 };
 
@@ -27,14 +33,21 @@ const SignUp = () => {
   const [fieldErrors, setFieldErrors] = useState<SignUpFieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFieldErrors({});
     setFormError(null);
 
+    if (!isPasswordValid(password)) {
+      setFieldErrors({ password: PASSWORD_REQUIREMENTS_MESSAGE });
+      return;
+    }
+
     if (password !== confirmPassword) {
-      setFieldErrors({ password: "Passwords do not match." });
+      setFieldErrors({ confirmPassword: "Passwords do not match." });
       return;
     }
 
@@ -60,6 +73,8 @@ const SignUp = () => {
             }
           }
           setFieldErrors(nextFieldErrors);
+        } else if (status === 409 && data.field) {
+          setFieldErrors({ [data.field]: data.error });
         } else if (status === 409) {
           setFormError(data.error);
         } else {
@@ -97,69 +112,112 @@ const SignUp = () => {
         </p>
       )}
 
-      <FormInput
-        id="name"
-        label="Full Name"
-        type="text"
-        placeholder="John Doe"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-        autoComplete="name"
-        required
-      />
-      {fieldErrors.name && <p className="field-error">{fieldErrors.name}</p>}
+      <div className="form-field">
+        <FormInput
+          id="name"
+          label="Full Name"
+          type="text"
+          placeholder="John Doe"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          autoComplete="name"
+          required
+        />
+        {fieldErrors.name && <p className="field-error">{fieldErrors.name}</p>}
+      </div>
 
-      <FormInput
-        id="username"
-        label="Username"
-        type="text"
-        placeholder="@johndoe"
-        value={username}
-        onChange={(event) => setUsername(event.target.value)}
-        autoComplete="username"
-        required
-      />
-      {fieldErrors.username && (
-        <p className="field-error">{fieldErrors.username}</p>
-      )}
+      <div className="form-field">
+        <FormInput
+          id="username"
+          label="Username"
+          type="text"
+          placeholder="@johndoe"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+          autoComplete="username"
+          required
+        />
+        {fieldErrors.username && (
+          <p className="field-error">{fieldErrors.username}</p>
+        )}
+      </div>
 
-      <FormInput
-        id="email"
-        label="Email"
-        type="email"
-        placeholder="you@example.com"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        autoComplete="email"
-        required
-      />
-      {fieldErrors.email && <p className="field-error">{fieldErrors.email}</p>}
+      <div className="form-field">
+        <FormInput
+          id="email"
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          autoComplete="email"
+          required
+        />
+        {fieldErrors.email && (
+          <p className="field-error">{fieldErrors.email}</p>
+        )}
+      </div>
 
-      <FormInput
-        id="password"
-        label="Password"
-        type="password"
-        placeholder="Enter your password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        autoComplete="new-password"
-        required
-        minLength={8}
-      />
-      {fieldErrors.password && (
-        <p className="field-error">{fieldErrors.password}</p>
-      )}
+      <div className="form-field">
+        <FormInput
+          id="password"
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          placeholder="Enter your password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          autoComplete="new-password"
+          required
+          minLength={8}
+          rightElement={
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FiEyeOff /> : <FiEye />}
+            </button>
+          }
+        />
+        {fieldErrors.password && (
+          <p className="field-error" role="alert">
+            <FiAlertCircle />
+            {fieldErrors.password}
+          </p>
+        )}
+      </div>
 
-      <FormInput
-        id="confirmPassword"
-        label="Confirm Password"
-        type="password"
-        placeholder="Enter your password"
-        value={confirmPassword}
-        onChange={(event) => setConfirmPassword(event.target.value)}
-        autoComplete="new-password"
-        required
-      />
+      <div className="form-field">
+        <FormInput
+          id="confirmPassword"
+          label="Confirm Password"
+          type={showConfirmPassword ? "text" : "password"}
+          placeholder="Enter your password"
+          value={confirmPassword}
+          onChange={(event) => setConfirmPassword(event.target.value)}
+          autoComplete="new-password"
+          required
+          rightElement={
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              title={showConfirmPassword ? "Hide password" : "Show password"}
+            >
+              {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+            </button>
+          }
+        />
+        {fieldErrors.confirmPassword && (
+          <p className="field-error" role="alert">
+            <FiAlertCircle />
+            {fieldErrors.confirmPassword}
+          </p>
+        )}
+      </div>
 
       <label className="terms">
         <input

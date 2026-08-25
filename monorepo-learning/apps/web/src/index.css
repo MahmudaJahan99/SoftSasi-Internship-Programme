@@ -1,5 +1,87 @@
-*, ::after, ::before {
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+    /* Brand */
+    --color-primary: #7c3aed;
+    --color-primary-light: #a855f7;
+    --color-primary-soft: #f5f1ff;
+
+    /* Text */
+    --color-text: #211a2d;
+    --color-text-secondary: #766d82;
+    --color-text-muted: #958aa2;
+
+    /* Borders */
+    --color-border: #ded8e7;
+    --color-border-light: rgba(139, 92, 246, 0.12);
+
+    /* Error */
+    --color-error: #b4234d;
+    --color-error-background: #fff6f9;
+    --color-error-border: #f3c9d7;
+    --color-error-icon: #fce7ef;
+
+    /* Surfaces */
+    --color-white: #ffffff;
+    --color-page: #faf9ff;
+
+    /* Effects */
+    --shadow-card:
+        0 24px 70px rgba(76, 29, 149, 0.1),
+        0 4px 16px rgba(76, 29, 149, 0.05);
+
+    --radius-card: 24px;
+    --radius-input: 10px;
+}
+
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+
+    margin: 0;
+
+    background: var(--color-page);
+    color: var(--color-text);
+
+    font-family: "Inter", sans-serif;
+    line-height: 1.5;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+img,
+svg {
+    display: block;
+}
+
+#root {
+    min-height: 100vh;
 }
