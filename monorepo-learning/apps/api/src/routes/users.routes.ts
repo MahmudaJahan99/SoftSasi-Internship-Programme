@@ -23,19 +23,30 @@ router.post("/", async (req, res) => {
 
     const user = await prisma.user.create({
       data: { name, username, email, passwordHash },
-      select: { id: true, name: true, username: true, email: true, createdAt: true },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        createdAt: true,
+      },
     });
 
     return res.status(201).json({ user });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
       const target = error.meta?.target as string[] | undefined;
       const field = target?.[0] === "email" ? "email" : "username";
       return res.status(409).json({ error: `This ${field} is already taken.` });
     }
 
     console.error("Signup error:", error);
-    return res.status(500).json({ error: "Something went wrong. Please try again." });
+    return res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again." });
   }
 });
 
@@ -53,10 +64,22 @@ router.get("/", async (_req, res) => {
 
     return res.json({ users });
   } catch (error) {
-    console.error("Get users error:", error);
-    return res.status(500).json({
-      error: "Something went wrong. Please try again.",
-    });
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target as string[] | undefined;
+      const field = target?.[0] === "email" ? "email" : "username";
+      return res.status(409).json({
+        error: `This ${field} is already taken.`,
+        field,
+      });
+    }
+
+    console.error("Signup error:", error);
+    return res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again." });
   }
 });
 

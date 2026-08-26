@@ -1,16 +1,23 @@
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes, ReactNode } from "react";
 import "./FormInput.css";
 
 type FormInputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
+  rightElement?: ReactNode;
 };
 
-const FormInput = ({ label, id, ...props }: FormInputProps) => {
+const FormInput = ({ label, id, rightElement, ...props }: FormInputProps) => {
   return (
     <div className="form-group">
       <label htmlFor={id}>{label}</label>
 
-      <input id={id} {...props} />
+      <div className="input-wrapper">
+        <input id={id} {...props} />
+
+        {rightElement && (
+          <div className="input-right-element">{rightElement}</div>
+        )}
+      </div>
     </div>
   );
 };
