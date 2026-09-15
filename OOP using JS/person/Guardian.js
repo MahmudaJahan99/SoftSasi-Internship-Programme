@@ -4,6 +4,7 @@ const _profession = Symbol("profession");
 const _income = Symbol("income");
 const _children = Symbol("children");
 
+// Guardian class representing a guardian, extending the Person class
 class Guardian extends Person {
   constructor(id, name, profession, income) {
     super(id, name);

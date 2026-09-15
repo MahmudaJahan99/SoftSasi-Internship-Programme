@@ -4,6 +4,7 @@ const _subjects = Symbol("subjects");
 const _dean = Symbol("dean");
 const _teachers = Symbol("teachers");
 
+// Department class representing a university department with id, name, subjects, dean, and teachers
 class Department {
   constructor({ id, name, subjects, dean, teachers }) {
     this[_id] = id;

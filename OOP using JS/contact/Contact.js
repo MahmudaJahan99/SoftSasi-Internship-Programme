@@ -4,6 +4,7 @@ const _phone = Symbol("phone");
 const _alternativePhone = Symbol("alternativePhone");
 const _address = Symbol("address");
 
+// Contact class representing a contact with email, phone, alternative phone, and address
 class Contact {
   constructor({ id, email, phone, alternativePhone, address }) {
     this[_id] = id;

@@ -2,6 +2,7 @@ const Employee = require("./Employee");
 
 const _subject = Symbol("subject");
 
+// Teacher class representing a teacher, extending the Employee class
 class Teacher extends Employee {
   constructor(id, name, subject, employeeId) {
     super(id, name, employeeId);

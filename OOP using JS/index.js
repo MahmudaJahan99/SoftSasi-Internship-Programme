@@ -50,6 +50,7 @@ department.subjects = [
 
 // console.log(student.department.toString())
 
+// Calculate total credit
 const credit = student.department.subjects.reduce((a, b) => {
   a += b.credit;
   return a;
@@ -58,7 +59,6 @@ const credit = student.department.subjects.reduce((a, b) => {
 // console.log(`Total Credit`, credit);
 
 // ***** TEACHER 1 *****
-
 const dean = new Teacher(1, "Mr. Biplob", department.subjects[0], "EMP001");
 dean.blood = "AB+";
 dean.department = department;
@@ -77,6 +77,7 @@ dean.contact = new Contact({
   }),
 });
 
+// ***** TEACHER 2 *****
 const teacher1 = new Teacher(1, "Mr. Afjal", department.subjects[1], "EMP1002");
 teacher1.department = department;
 teacher1.blood = "O+";
@@ -95,6 +96,7 @@ teacher1.contact = new Contact({
   }),
 });
 
+// ***** TEACHER 3 *****
 const teacher2 = new Teacher(1, "Mr. Ruma", department.subjects[2], "EMP1003");
 teacher2.department = department;
 teacher2.blood = "AB-";
@@ -121,6 +123,7 @@ department.addTeacher(teacher2);
 // console.log(student)
 // console.log(student.department)
 
+// List all teachers in the department
 student.department.teachers.forEach((teacher, index) => {
   console.log(`${index + 1}. ${teacher.name} (${teacher.subject.name})`);
 });
@@ -128,9 +131,12 @@ student.department.teachers.forEach((teacher, index) => {
 // console.log(dean)
 // console.log(dean.department);
 
+// Add student to guardian
 guardian.addChild(student);
+
 // console.log(guardian);
 
+// Calculate total salary of teachers in the department
 const teacherSalary = guardian.children[0].department.teachers.reduce(
   (acc, cur) => {
     acc += cur.salary;
@@ -141,6 +147,7 @@ const teacherSalary = guardian.children[0].department.teachers.reduce(
 
 // console.log(teacherSalary)
 
+// Count the number of people with blood type "O+" in the student's family and department
 let count = 0
 if(student.blood === "O+") count++
 if(student.guardian.blood === "O+") count++

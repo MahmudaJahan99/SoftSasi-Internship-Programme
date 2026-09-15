@@ -3,6 +3,7 @@ const _name = Symbol("name");
 const _subject = Symbol("subject");
 const _passMark = Symbol("passMark");
 
+// Exam class representing an exam with id, name, subject, and pass mark
 class Exam {
   constructor(id, name, subject, passMark) {
     this[_id] = id;

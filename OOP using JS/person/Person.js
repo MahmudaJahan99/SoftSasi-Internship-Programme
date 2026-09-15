@@ -3,6 +3,7 @@ const _name = Symbol("name");
 const _blood = Symbol("blood");
 const _contact = Symbol("contact");
 
+// Person class representing a person with id, name, blood type, and contact information
 class Person {
   constructor(id, name) {
     this[_id] = id;

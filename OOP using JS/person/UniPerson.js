@@ -3,6 +3,7 @@ const Person = require("./Person");
 const _department = Symbol("department");
 const _account = Symbol("account");
 
+// UniPerson class representing a university person, extending the Person class
 class UniPerson extends Person {
   constructor(id, name) {
     super(id, name);

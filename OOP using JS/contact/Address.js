@@ -5,6 +5,7 @@ const _region = Symbol("region");
 const _country = Symbol("country");
 const _postalCode = Symbol("postalCode");
 
+// Address class representing a physical address
 class Address {
   constructor({ id, roadNo, city, region, country, postalCode }) {
     this[_id] = id;

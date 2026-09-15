@@ -2,6 +2,7 @@ const _id = Symbol("id");
 const _name = Symbol("name");
 const _credit = Symbol("credit");
 
+// Subject class representing a university subject with id, name, and credit
 class Subject {
   constructor(id, name, credit) {
     this[_id] = id;

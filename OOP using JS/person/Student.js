@@ -5,6 +5,7 @@ const _guardian = Symbol("guardian");
 const _exams = Symbol("exams");
 const _fee = Symbol("fee");
 
+// Student class representing a student, extending the UniPerson class
 class Student extends UniPerson {
   constructor(id, name, studentID, guardian) {
     super(id, name);
